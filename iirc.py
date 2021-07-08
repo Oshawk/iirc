@@ -342,15 +342,18 @@ def background():
             if account_ is None:
                 continue
 
-            logs = w3.eth.get_logs({
-                "fromBlock": from_block,
-                "address": Shared.contract.address,
-                "topics": [
-                    "0x5c640cddf0cd2eec63278ce12860a658f1edfb6554a96a9b84316fd5e8818c25",
-                    None,
-                    f"""0x{account_.account.address[2:].rjust(64, "0")}"""
-                ]
-            })
+            try:
+                logs = w3.eth.get_logs({
+                    "fromBlock": from_block,
+                    "address": Shared.contract.address,
+                    "topics": [
+                        "0x5c640cddf0cd2eec63278ce12860a658f1edfb6554a96a9b84316fd5e8818c25",
+                        None,
+                        f"""0x{account_.account.address[2:].rjust(64, "0")}"""
+                    ]
+                })
+            except Exception as e:
+                print("An error occurred while getting logs: ", repr(e))
 
             for event in logs:
                 from_block = max(from_block, event.blockNumber + 1)
