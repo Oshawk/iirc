@@ -354,6 +354,8 @@ def background():
                 })
             except Exception as e:
                 print("An error occurred while getting logs: ", repr(e))
+                print("> ", end="")
+                continue
 
             for event in logs:
                 from_block = max(from_block, event.blockNumber + 1)
